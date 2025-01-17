@@ -1,0 +1,54 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Glue Docker Image",
+            "type": "shell",
+            "command": "podman build -t my-glue-image GLUE/",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher":[]
+        },
+        {
+            "label": "Run Glue Job",
+            "type": "shell",
+            "command": "podman run --rm -v ${workspaceFolder}/GLUE/src:/opt/src -v ${workspaceFolder}/GLUE/.aws:/root/.aws my-glue-image /home/glue_user/spark/bin/spark-submit /opt/src/glue_script.py --JOB_NAME my_glue_job",
+            //"dependsOn": "Build Glue Docker Image",
+            "problemMatcher":[],
+            "isBackground": true
+        },
+        {
+            "label": "Stop Docker Container",
+            "type" : "shell",
+            "command": "podman stop $(podman ps -q",
+            "problemMatcher":[],
+            "isBackground": true
+        },
+        {
+            "label": "Build Lambda Docker Image",
+            "type": "shell",
+            "command": "podman build -t my-lambda-function ./LAMBDA/my-lambda-function",
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            },
+            "problemMatcher": []
+          },
+          {
+            "label": "Run Lambda Function",
+            "dependsOn": "Build Lambda Docker Image",
+            "type": "shell",
+            "command": "podman run -p 8000:8080 my-lambda-function",
+            "isBackground": true,
+            "problemMatcher": []
+          },
+          {
+            "label": "Invoke Lambda Function",
+            "type": "shell",
+            "command": "curl.exe -X POST \"http://localhost:8000/2015-03-31/functions/function/invocations\" -d \"{}\"",
+            "problemMatcher": []
+          }
+    ]
+}
