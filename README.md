@@ -22,13 +22,19 @@ Remote Explorer (Microsoft)
 WSL (Microsoft)
 
 🔧 Setup Instructions
+
 Clone the Repository
+
 git clone https://github.com/YuvrajSinghl/podman-lambda-glue-workbench.git
 
 Step-1 Open VS Code
+
 Step-2 Go to Remote Explorer -> Select Target as WSL Targets -> Under WSL Targets connect to **podman-machine-default**, this will open a new VS code window.
+
 Step-3 In this new window open this cloned repo.
+
 Step-4 Configure AWS credential in ".aws" file so Glue and Lambda could connect to live aws services, and update code as desired.
+
 Step-5 To run glue or lambda, Press CTRL+SHIFT+P and under tasks select "Run Glue Job" or Run Lambda Function"
 
 ⚠️_If you are running this code for the first time make sure you build image for desired service. It could be done by 'Run Task'_
